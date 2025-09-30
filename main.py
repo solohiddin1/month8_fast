@@ -7,20 +7,16 @@ from models.models import User
 app = FastAPI()
 
 
-
-
 class User(BaseModel):
     name:str
     surname:str
     number:str
-
 
 with open('test.json', mode='a')as j:
     # json.dump()
     pass
 
 filename = 'test.json'
-
 
 
 @app.post("/post_1/")
@@ -55,6 +51,7 @@ async def get_data():
 
     return {"message": users}
 
+
 @app.put("/put/")
 async def edit_user(id: int, data: User):
     users = []
@@ -71,12 +68,13 @@ async def edit_user(id: int, data: User):
         if id == i["id"]:
             i.update(data)
             updated = True
-    if updated:    
+    if updated:
         with open(filename, mode='w') as j:
             json.dump(users, j, indent=4)
     else:
         {"error": "id not found!"}   
     return {"message": "field updated"}
+
 
 @app.delete("/delete/")
 async def delete_data(id:int):
