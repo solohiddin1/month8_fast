@@ -4,15 +4,27 @@ from sqlalchemy.orm import Session
 from database.database import Base, DATABASE_URL, get_db
 from models.models import User
 from pydantic import BaseModel
+import jwt
+from jwt.exceptions import InvalidTokenError
 
 engine = create_engine(DATABASE_URL)
 Base.metadata.create_all(bind=engine)
+
+
+# openssl rand -hex [number]
+SECRET_KEY = 'c9d7cdd6f90cfe844124f5ec1303d04822634433f3e27472459a919db42e6b5c'
+ALGORITHM = 'HS256'
+ACCESS_TOKEN_EXPIRE_MIN = 30
 
 class UserIn(BaseModel):
     name:str
     surname:str
     phone:str
 
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
 
 app = FastAPI()
 
